@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <title>Javi Clicker</title>
+    <script>
+        let clickCount = 0;
+let CPS = 0;
+let autoClickerInterval;
+
+function addClick() {
+    clickCount++;
+    document.getElementById('clicks').innerText = clickCount;
+    showClickAnimation();
+    if (clickCount >= 1000) {
+        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley';
+    }
+    if (clickCount > 1000) {
+        document.getElementById('BotonS').style.display = 'block';
+    }
+    updateClickIndicatorSize();
+}
+
+function showClickAnimation() {
+    const copiasClick = document.getElementById('copiasClick');
+    copiasClick.innerText = `+1`;
+    copiasClick.style.animation = 'none';
+    copiasClick.offsetHeight; // Trigger reflow to restart animation
+    copiasClick.style.animation = 'fadeInOut 1s ease-in-out';
+}
+
+function reset() {
+    clickCount = 0;
+    document.getElementById('clicks').innerText = clickCount;
+    document.getElementById('BotonS').style.display = 'none';
+    updateClickIndicatorSize();
+}
+
+function save() {
+    localStorage.setItem('clickCount', clickCount);
+}
+
+// Cargar el contador de clics al iniciar la página
+window.onload = function() {
+    if (localStorage.getItem('clickCount')) {
+        clickCount = parseInt(localStorage.getItem('clickCount'), 10);
+        document.getElementById('clicks').innerText = clickCount;
+    }
+    startAutoClicker();
+    if (clickCount > 1000) {
+        document.getElementById('BotonS').style.display = 'block';
+    } else {
+        document.getElementById('BotonS').style.display = 'none';
+    }
+    updateClickIndicatorSize();
+};
+
+// Guardar el contador de clics al salir o recargar la página
+window.onbeforeunload = function() {
+    save();
+};
+
+function buyUpgrade(level) {
+    const cost = level * 100;
+    const cpsIncrease = level * 5;
+    if (clickCount >= cost) {
+        clickCount -= cost;
+        document.getElementById('clicks').innerText = clickCount;
+        CPS += cpsIncrease;
+        document.getElementById('ICPS').innerText = `Autoclick: ${CPS} CPS`;
+        startAutoClicker();
+    }
+}
+
+function startAutoClicker() {
+    if (autoClickerInterval) {
+        clearInterval(autoClickerInterval);
+    }
+    if (CPS > 0) {
+        autoClickerInterval = setInterval(addClick, 1000 / CPS);
+    }
+}
+
+function updateClickIndicatorSize() {
+    const maxHeight = 100; // Maximum additional height in pixels
+    const baseHeight = 20; // Base height in pixels
+    const newHeight = Math.min(baseHeight + clickCount / 10, baseHeight + maxHeight);
+    document.getElementById('clicks').style.height = `${newHeight}px`;
+}
+
+// Ejemplo de cómo llamar a las mejoras
+function upgrade1() { buyUpgrade(1); }
+function upgrade2() { buyUpgrade(2); }
+function upgrade3() { buyUpgrade(3); }
+function upgrade4() { buyUpgrade(4); }
+function upgrade5() { buyUpgrade(5); }
+function upgrade6() { buyUpgrade(6); }
+    </script>
+    <style>
+        body {
+    background-color: rgb(23, 161, 148);
+    color: rgb(9, 61, 56);
+    font-family: 'Poppins', sans-serif;
+    margin: 10px;
+    text-align: center;
+    text-shadow: 2px 1px 1px rgba(9, 66, 88, 0.5);
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-20px); }
+    100% { opacity: 0; transform: translateY(-40px); }
+}
+
+#copiasClick {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: rgb(6, 122, 126);
+    opacity: 0;
+    animation: fadeInOut 1s ease-in-out;
+    pointer-events: none;
+}
+
+button {
+    background-color: rgb(109, 221, 210);
+    color: rgba(9, 66, 88, 0.5);
+    border: rgb(9, 61, 56), 2px, solid;
+    border-radius: 5px;
+    width: 100px;
+    height: 80px;
+    padding: 10px,40px,10px,40px;
+    box-shadow: 5px 2px 2px rgba(9, 66, 88, 0.5);
+    font-size: 12px;
+    text-align: center;
+    margin: 20px;
+    font-family: Poppins, sans-serif;
+}
+button:hover {
+    background-color: rgb(38, 250, 229);
+    color: rgb(83, 161, 152);
+    box-shadow: 5px 2px 2px rgba(14, 131, 106, 0.5);
+    animation: Hover 1s linear 0s 1 normal forwards;
+}
+@keyframes Hover {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.25, 0.75, 1);
+	}
+
+	40% {
+		transform: scale3d(0.75, 1.25, 1);
+	}
+
+	50% {
+		transform: scale3d(1.15, 0.85, 1);
+	}
+
+	65% {
+		transform: scale3d(0.95, 1.05, 1);
+	}
+
+	75% {
+		transform: scale3d(1.05, 0.95, 1);
+	}
+
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+button:active {
+    background-color: rgb(147, 255, 244);
+    color: rgb(36, 196, 177);
+    box-shadow: 5px 2px 2px rgba(20, 185, 150, 0.5);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Javi Clicker</h1>
+        <div id="copiasClick"></div>
+        <h2 id="clicks">0</h2>
+        <p id="ICPS">Autoclick: 0 CPS</p>
+        <button onclick="addClick()">Click me!</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+    <div class="container">
+        <h1>Upgrades</h1>
+        <button onclick="buyUpgrade(1)">Upgrade 1: +5 CPS</button>
+        <button onclick="buyUpgrade(2)">Upgrade 2: +10 CPS</button>
+        <button onclick="buyUpgrade(3)">Upgrade 3: +15 CPS</button>
+        <button onclick="buyUpgrade(4)">Upgrade 4: +20 CPS</button>
+        <button onclick="buyUpgrade(5)">Upgrade 5: +40 CPS</button>
+        <button onclick="buyUpgrade(6)">Upgrade 6: +50 CPS</button>
+    </div>
+    <div class="container">
+        <button onclick="save()">Save</button>
+        <button id="BotonS" onclick="window.location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley'">Secreto!</button>
+    </div>
+</body>
+</html>
