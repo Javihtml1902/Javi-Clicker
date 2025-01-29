@@ -1,1 +1,3 @@
 # Javi-Clicker
+THIS IS HTML5 GAME
+FREE SOURCE
